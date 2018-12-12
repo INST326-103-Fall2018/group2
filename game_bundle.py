@@ -10,7 +10,7 @@ def user_profile():
 	points = []
 
 	user = input("Enter username: ")
-	user_save = user + '.py'
+	user_save = user + '.csv'
 	if os.path.exists(user_save):
 
 		print('Logging in...')
