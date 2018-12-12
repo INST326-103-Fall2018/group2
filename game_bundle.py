@@ -2,7 +2,9 @@
 
 import csv
 import os.path
-import hangman #need single file for all games "install.py"
+import installgames
+from installgames import *
+
 
 
 #create or load profile
@@ -18,7 +20,7 @@ def user_profile():
 
 	else:
 
-		print('Creating savefile')
+		print('Creating profile...')
 		#call scores?
 
 		with open(user_save, 'w') as file:
@@ -35,7 +37,7 @@ def user_profile():
 
 
 
-def scores(user_save, game, score):
+def scores(user_save, game, score, plays):
 	
 	with open(user_save, 'r') as inhandle:
 		reader = csv.DictReader(inhandle)
@@ -51,7 +53,7 @@ def scores(user_save, game, score):
 
 				#should write to file as new row if game not in savefile
 				#I'm stuck here
-				reader[game] = score
+				reader[game] = score, plays
 
 			for row in reader:
 				data.append(row)
@@ -66,38 +68,48 @@ def main():
 
 	high_scores = user_profile()
 	game_status = 'q'
+	game_score = 0
+	total_plays = 0
 
-	game_list = ['hangman', 'game2', 'game3'] #hardcoded, should be populated from outside list
+	#write a function for this
+	game_list = installgames.gamelist()
 
 
 	while game_status == 'q':
 
 		print("*** Main Menu ***")
 		print("Type name of a game or 'exit' to quit the program.")
-		#list of games goes here
+		
 
 		g = 1
 		for game in game_list:
-			print("Game", g, ":", game)
+			print("Game", g, ":", game) #include high score variable here
 			g = g + 1
 
-		selection = input("Select: ") #need a custom exception
+		selection = input("Select: ").lower() #need a custom exception
 
 		if selection != 'exit':
 
 			
 			for game in game_list:
 
-				if  game == selection:
+				if  game.lower() == selection: 
 					print("Loading", game, "...")
 
+					#this should be changed to the high score and total games from file
+					print("High Score:", game_score, "/", "Total Games:", total_plays)
+
 					#hangman should be replaced with game for each iteration and then executed but how?
-					game_status, game_score = hangman.main()
-					
+					game_status, game_score, total_plays = installgames.hangmanexec()
+					#print(game_status, game_score, total_plays) #for testing
+
+
+
+					#total plays goes here, should always increment and add to total in file
 					print("\nSaving...\n")
 
 					#save to file here
-					scores(high_scores, game, game_score)
+					scores(high_scores, game, game_score, total_plays)
 
 				elif selection not in game_list:
 					print("\nInvalid entry, please try again.\n")
@@ -112,7 +124,7 @@ def main():
 
 			
 
-			print("Thanks for playing!\nGoodbye!")
+			print("\nThanks for playing!\nGoodbye!")
 			exit()
 
 
