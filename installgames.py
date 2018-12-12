@@ -13,7 +13,7 @@ from games import *
 def gamelist():
 
 	#Add name of game as it should appear in the menu
-	return(['Hangman'])
+	return(['Hangman', 'game2'])
 gamelist.__doc__ = """List of available games"""
 
 
@@ -24,6 +24,12 @@ def hangmanexec():
 	#print("hangman")
 	return hangman.main()
 hangman.__doc__ = """Executes Hangman game"""
+
+
+
+def game2():
+
+	print("This is for game 2")
 
 
 

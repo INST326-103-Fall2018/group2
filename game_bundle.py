@@ -7,8 +7,9 @@ from installgames import *
 
 
 
+
 #create or load profile
-def user_profile():
+def user_profile(game_list):
 	points = []
 
 	user = input("Enter username: ")
@@ -24,7 +25,11 @@ def user_profile():
 		#call scores?
 
 		with open(user_save, 'w') as file:
-			file.write('')
+			headers = game_list
+			writer = csv.DictWriter(file, fieldnames=headers)
+
+			writer.writeheader()
+
 
 
 	print("\nWelcome", user, "\n") 
@@ -45,9 +50,10 @@ def scores(user_save, game, score, plays):
 		for key, value in reader:
 			if game in reader:
 
-				#if game exists in file, compare scores and write better score
 
-				print("code goes here")
+				reader[game] = [score, plays]
+
+				
 
 			else:
 
@@ -66,13 +72,21 @@ def scores(user_save, game, score, plays):
 def main():
 
 
-	high_scores = user_profile()
+	initial_list = installgames.gamelist()
+	game_list = []
+
+	for item in initial_list:
+		item = item.lower()
+		game_list.append(item)
+
+
+	user_save = user_profile(initial_list)
 	game_status = 'q'
 	game_score = 0
 	total_plays = 0
 
-	#write a function for this
-	game_list = installgames.gamelist()
+	
+	
 
 
 	while game_status == 'q':
@@ -82,7 +96,7 @@ def main():
 		
 
 		g = 1
-		for game in game_list:
+		for game in initial_list:
 			print("Game", g, ":", game) #include high score variable here
 			g = g + 1
 
@@ -93,7 +107,7 @@ def main():
 			
 			for game in game_list:
 
-				if  game.lower() == selection: 
+				if  game == selection: 
 					print("Loading", game, "...")
 
 					#this should be changed to the high score and total games from file
@@ -109,7 +123,7 @@ def main():
 					print("\nSaving...\n")
 
 					#save to file here
-					scores(high_scores, game, game_score, total_plays)
+					#scores(user_save, game, game_score, total_plays)
 
 				elif selection not in game_list:
 					print("\nInvalid entry, please try again.\n")
@@ -117,6 +131,7 @@ def main():
 			
 
 				else:
+					
 					pass
 			
 
