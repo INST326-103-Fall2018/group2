@@ -1,6 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+#Name: Chris Davis
+#Assignment: Final Project
 
 
+import pandas
 import csv
+import sys
 import os.path
 import installgames
 from installgames import *
@@ -10,8 +17,93 @@ from installgames import *
 
 #create or load profile
 def user_profile(game_list):
-	points = []
+	
 
+	if len(sys.argv) < 2:
+
+
+		print("Welcome new user!")
+		user = input("Enter username: ")
+		user_save = user + '.csv'
+
+		print('Creating profile...')
+
+
+		with open(user_save, 'w') as file:
+			headers = game_list
+			writer = csv.DictWriter(file, fieldnames=headers)
+
+			writer.writeheader()
+
+	elif len(sys.argv) == 2:
+		user = sys.argv[1]
+		user_save = user + '.csv'
+		if os.path.exists(user_save):
+
+			print('Logging in...')
+
+		else:
+
+			while True:
+
+				create = ''
+				print("Profile not found!")
+				create = input("Create new profile (Y/N)? ")
+				create = create.lower()
+
+				if create == 'y':
+
+					print('Creating profile...')
+
+
+					with open(user_save, 'w') as file:
+						headers = game_list
+						writer = csv.DictWriter(file, fieldnames=headers)
+
+						writer.writeheader()
+
+					break
+					
+
+				elif create == 'n':
+
+					print("\nThanks for playing!\nGoodbye!")
+					exit()
+
+				else:
+
+					print("Invalid entry")
+
+					continue
+
+	else:
+
+		print("Error: Too many entries.")
+		print("Only one profile can be loaded at a time.")
+		print("Exiting...")
+		exit()
+
+
+	print("\nWelcome", user, "\n") 
+
+	#read file and return as list
+
+
+	return user_save
+
+
+
+
+
+
+
+
+
+
+
+
+
+	'''
 	user = input("Enter username: ")
 	user_save = user + '.csv'
 	if os.path.exists(user_save):
@@ -37,34 +129,96 @@ def user_profile(game_list):
 	#read file and return as list
 
 
-	return user_save
+	return user_save'''
+
 	
 
 
 
 def scores(user_save, game, score, plays):
 	
+
+	score_val = 0
+	play_val = 0
+
+
 	with open(user_save, 'r') as inhandle:
-		reader = csv.DictReader(inhandle)
+		df = pandas.read_csv(inhandle)
+		print(type(df))
+		game_dict = dict(df)
+		print(type(game_dict))
 
-		for key, value in reader:
-			if game in reader:
+		for key, val in game_dict():
+
+			if game == key:
+
+				if score > val:
+
+					score_val = score
 
 
-				reader[game] = [score, plays]
-
-				
+				else:
+					pass
 
 			else:
+				pass #for now
 
-				#should write to file as new row if game not in savefile
-				#I'm stuck here
-				reader[game] = score, plays
+	print(score_val)
+	with open(user_save, 'w') as outhandle:
+		game_dict.to_csv(outhandle)
 
-			for row in reader:
-				data.append(row)
+
+
+
+
+
+
+
+	'''with open(user_save, 'r') as inhandle:
+		reader = csv.DictReader(inhandle)
+		game_dict = dict(reader)
+
+		for key, val in game_dict.items():
+			if game == key:
+
+				if score > val:
+
+					score_val = score
+
+				else:
+
+					pass
+
+				#play_val = play_val + plays
 
 	
+	with open(user_save, 'w') as file:
+			headers = game
+			writer = csv.DictWriter(file, fieldnames=headers)
+			writer.writeheader()
+			for key,score_val in writer.items():
+			
+				writer.writerow([key, score_val])'''
+
+
+
+def play_game(game):
+
+	#hangman should be replaced with game for each iteration and then executed but how?
+	
+	game_exec = game + 'exec'
+
+
+	launch_game	= getattr(installgames, game_exec)
+	
+	game_status, game_score, total_plays = launch_game()
+
+	print(game_status, game_score, total_plays) #for testing
+
+	return game_status, game_score, total_plays
+
+
+
 
 
 
@@ -96,8 +250,8 @@ def main():
 		
 
 		g = 1
-		for game in initial_list:
-			print("Game", g, ":", game) #include high score variable here
+		for game_initial in initial_list:
+			print("Game", g, ":", game_initial) #include high score variable here
 			g = g + 1
 
 		selection = input("Select: ").lower() #need a custom exception
@@ -110,20 +264,18 @@ def main():
 				if  game == selection: 
 					print("Loading", game, "...")
 
-					#this should be changed to the high score and total games from file
+		
 					print("High Score:", game_score, "/", "Total Games:", total_plays)
 
-					#hangman should be replaced with game for each iteration and then executed but how?
-					game_status, game_score, total_plays = installgames.hangmanexec()
-					#print(game_status, game_score, total_plays) #for testing
-
+					
+					game_status, game_score, total_plays = play_game(game)
 
 
 					#total plays goes here, should always increment and add to total in file
 					print("\nSaving...\n")
 
 					#save to file here
-					#scores(user_save, game, game_score, total_plays)
+					#scores(user_save, game_initial, game_score, total_plays)
 
 				elif selection not in game_list:
 					print("\nInvalid entry, please try again.\n")
@@ -131,7 +283,7 @@ def main():
 			
 
 				else:
-					
+
 					pass
 			
 
