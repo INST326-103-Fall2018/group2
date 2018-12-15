@@ -158,12 +158,12 @@ def main():
                 p2wins += 1
                 winnerscore = score_b
             break
-        elif sys.argv[0] == 'exit':
-            print('Thanks for playing, goodbye!')
-            break
+        #elif sys.argv[0] == 'exit':
+            #print('Thanks for playing, goodbye!')
+            #break
 
 
-    print('q', winnerscore)
+    return 'q', winnerscore
 
 if __name__ == '__main__':
     main()
