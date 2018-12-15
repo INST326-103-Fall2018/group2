@@ -124,7 +124,7 @@ def main():
         # define dealer whether burst or not
         if dealer.burst():
             print("Computer player's points over 21, YOU WIN!")
-            sys.exit()
+            break
         # if not burst,break
         elif dealer.get_value("max") >= 17:
             break
