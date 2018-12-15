@@ -1,4 +1,5 @@
-# Name:QingRu Su, Xia yineng
+# Name: QingRu Su, Yineng Xia
+# Assignment: Final Project
 
 
 from random import shuffle
