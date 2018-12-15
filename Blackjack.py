@@ -106,7 +106,7 @@ def main():
             # define player whether burst or not
             if player.burst():
                 print("Your points over 21, YOU LOSE!")
-                sys.exit()
+                
             total_games = total_games + 1
         else:
             break
