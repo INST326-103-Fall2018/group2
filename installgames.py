@@ -27,13 +27,14 @@ def hangmanexec():
 hangman.__doc__ = """Executes Hangman game"""
 
 
-
+#Executes Pong game
 def pongexec():
 
 	
 	return pong.main()
 pong.__doc__ = """Executes Pong game"""
 
+#Executes Blackjack game
 def blackjackexec():
 
 	return Blackjack.main()
