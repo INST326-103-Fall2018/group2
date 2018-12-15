@@ -273,7 +273,7 @@ def main():
                 keep_playing = False
 
                 # exit()
-                return 'q', wins
+                return 'q', wins, total_games
 
 
             else:
