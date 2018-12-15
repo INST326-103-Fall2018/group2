@@ -28,10 +28,11 @@ hangman.__doc__ = """Executes Hangman game"""
 
 
 
-def game2():
+def pongexec():
 
-	print("This is for game 2")
-
+	
+	return pong.main()
+pong.__doc__ = """Executes Pong game"""
 
 def blackjackexec():
 
@@ -42,4 +43,5 @@ Blackjack.__doc__ = """Executes Blackjack game"""
 
 if __name__ == '__main__':
     assert hangmanexec() == True
+    assert pongexec() == True
     assert blackjackexec() == True
