@@ -1,4 +1,4 @@
-# QingRu Su, Xia yineng
+# Name:QingRu Su, Xia yineng
 
 
 from random import shuffle
