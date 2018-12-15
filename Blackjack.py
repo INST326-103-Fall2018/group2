@@ -137,6 +137,8 @@ def main():
         print("DRAW")
     else:
         print("YOU LOSE!")
+        
+    total_games = total_games + 1
     while keep_playing:
         # Loop for quitting conditions
         while True:
@@ -157,7 +159,7 @@ def main():
                 keep_playing = False
 
                 # exit()
-                return 'q', wins
+                return 'q', wins, total_games
 
 
             else:
