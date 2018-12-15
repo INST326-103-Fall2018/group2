@@ -1,3 +1,4 @@
+# Qingru Su
 import random
 import sys
 import time
@@ -82,6 +83,9 @@ def main():
     dealer = Role()
     # create player role
     player = Role()
+    total_games = 0
+    wins = 0
+    keep_playing = True
 
     # At the beginning, send one card to dealer, two cards to player
     cards.send_card(dealer)
@@ -103,6 +107,7 @@ def main():
             if player.burst():
                 print("Your points over 21, YOU LOSE!")
                 sys.exit()
+            total_games = total_games + 1
         else:
             break
 
@@ -132,6 +137,34 @@ def main():
         print("DRAW")
     else:
         print("YOU LOSE!")
+    while keep_playing:
+        # Loop for quitting conditions
+        while True:
+            # User chooses to keep playing or quit
+            print(wins, "wins", "/", total_games, "total games")
+            keep_playing = input("Play again? (Y/N): ")
+            keep_playing = keep_playing.upper()
+
+            if keep_playing == 'Y':
+
+                break
+
+
+            elif keep_playing == 'N':
+
+                print('\nThanks for playing!\n')
+
+                keep_playing = False
+
+                # exit()
+                return 'q', wins
+
+
+            else:
+
+                print('Invalid entry')
+
+                continue
 
 
 if __name__ == '__main__':
